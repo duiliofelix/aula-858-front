@@ -1,11 +1,22 @@
 import React from "react";
+import styled from 'styled-components';
+
+const DivFlex = styled.div`
+  display: flex;
+  grid-column: 2;
+`;
+
+const DivComEspaco = styled.div`
+  padding: 5px;
+`;
+
 
 const ResultControls = () => (
-  <div style={{ display: 'flex', gridColumn: 2 }}>
-    <div style={{ padding: '5px' }}>Localização</div>
-    <div style={{ padding: '5px' }}>Safe</div>
-    <div style={{ padding: '5px' }}>Time</div>
-  </div>
+  <DivFlex>
+    <DivComEspaco>Localização</DivComEspaco>
+    <DivComEspaco>Safe</DivComEspaco>
+    <DivComEspaco>Time</DivComEspaco>
+  </DivFlex>
 );
 
 export default ResultControls;
