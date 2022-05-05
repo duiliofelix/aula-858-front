@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Result = ({ title }) => (
   <div style={{ marginBottom: '15px' }}>
@@ -6,7 +7,9 @@ const Result = ({ title }) => (
 
 
     {title ? (
-      <h1 style={{ margin: 0, fontSize: '16pt', color: 'darkblue' }}>{title}</h1>
+      <h1 style={{ margin: 0, fontSize: '16pt', color: 'darkblue' }}>
+        <Link to='/item'>{title}</Link>
+      </h1>
     ) : (
       <span>Sem Título</span>
     )}

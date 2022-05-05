@@ -1,43 +1,34 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
+import axios from "axios";
+import { Routes, Route } from 'react-router-dom';
 import './App.css';
-import FloatingCard from './components/FloatingCard';
-import ResultControls from './components/ResultControls';
-import ResultList from './components/ResultList';
+import Home from './components/Home';
+import Item from './components/Item';
+import SearchBar from './components/SearchBar';
 
-function App() {
-  const [descricao, setDescricao] = useState('pesquisa');
+const App = () => {
+  const [results, setResults] = useState([]); // ['Resultado 1', 'Resultado 2', 'Resultado 3', 'Resultado 4', 'Resultado 5'];
 
-  useEffect(() => {
-    alert(descricao);
-  }, [descricao]);
-
-  const handleClick = useCallback(() => {
-    console.log('clicado');
-
-    setDescricao('pesquisado');
-  }, [setDescricao]);
-
-  const handleChange = useCallback((event) => {
-    console.log(event.target.value);
-  }, []);
+  const doSearch = useCallback((conteudo) => {
+    axios.post(`https://api.github.com/users/${conteudo}`, { name: '' })
+      .then((response) => {
+        setResults([...results, response.data]);
+      })
+      .catch((error) => {
+        console.error(error);
+        alert('Deu erro =/')
+      });
+  }, [setResults, results]);
 
   return (
     <div>
-     <div style={{ padding: '10px', borderWidth: '0 0 1px 0', borderBottomColor: 'rgba(0,0,0,.2)', borderStyle: 'solid' }}>
-      
-       {descricao}
-        <input onChange={handleChange} />
-       <button onClick={handleClick}>pesquisar</button>
-     </div>
-     <div style={{ display: 'grid', gridTemplateRows: '1fr auto', gridTemplateColumns: '100px 2fr 1fr 100px', gap: '10px' }}>
-      <ResultControls />
-      <ResultList />
-      <div style={{ gridRow: 2, gridColumn: 3 }}>
-        <FloatingCard />
-      </div>
-     </div>
+      <SearchBar onPesquisar={doSearch} />
+      <Routes>
+        <Route path="/" element={<Home list={results} />} />
+        <Route path="/item" element={<Item />} />
+      </Routes>
     </div>
   );
-}
+};
 
 export default App;
